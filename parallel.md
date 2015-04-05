@@ -14,3 +14,6 @@ http://www.infoq.com/interviews/rick-hudson-rivertrail
 
 API spec is a bit different from Rivertrail current
 http://wiki.ecmascript.org/doku.php?id=strawman:data_parallelism
+
+Workers === thread video:
+https://www.youtube.com/watch?v=-xNZYr40QOk&t=14m18s

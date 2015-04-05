@@ -46,3 +46,5 @@ Paper: https://e9fe7ff0-a-62cb3a1a-s-sites.googlegroups.com/site/wpmvp2014/paper
 Example: http://lemire.me/blog/archives/2015/03/25/accelerating-intersections-with-simd-instructions/?utm_source=feedburner&utm_medium=twitter&utm_campaign=Feed%3A+daniel-lemire%2Fatom+%28Daniel+Lemire%27s+blog%29
 
 No arrays proposal: https://github.com/johnmccutchan/ecmascript_simd/issues/113
+
+Why load/store are slow: https://github.com/johnmccutchan/ecmascript_simd/issues/113#issuecomment-87008147
