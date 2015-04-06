@@ -1,15 +1,3 @@
-// http://jsperf.com/simd-sum-asm-js
-
-function sum(items){
-  var res = 0;
-  for (var i = 0; i < items.length; i++){
-    res += items[i];
-  }
-
-  return res;
-}
-
-// SIMD
 var asmModule = function(stdlib, imp, buffer){
   "use asm";
   var f4 = stdlib.SIMD.float32x4;
@@ -68,11 +56,3 @@ var heap = new ArrayBuffer(0x10000);
 var items = generateArray(heap, 10000);
 
 asmSIMD = asmModule(window, null, heap);
-
-var doSum = function(items){
-  if (sum(items) > 10000) { console.error('fail sum'); }
-};
-
-var doSIMDSum = function(items){
-  if (asmSIMD.sum(items.length) > 10000) { console.error('fail SIMD sum'); }
-};
