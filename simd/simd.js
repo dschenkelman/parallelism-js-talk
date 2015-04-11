@@ -1,15 +1,3 @@
-// http://jsperf.com/simd-sum
-
-function sum(items){
-  var res = 0;
-  for (var i = 0; i < items.length; i++){
-    res += items[i];
-  }
-
-  return res;
-}
-
-// SIMD
 var float32x4 = SIMD.float32x4;
 
 float32x4.utils = SIMD.utils || {};
@@ -24,23 +12,19 @@ if (!float32x4.utils.sum){
       res = float32x4.add(res, f32x4Load(items, i));
     }
 
-    var finalLoad = [
-      float32x4.loadX,
-      float32x4.loadXY,
-      float32x4.loadXYZ ];
-
-    if (rem){
-      res = float32x4.add(res, finalLoad[rem - 1](items, i));
+    res = Math.fround(Math.fround(res.x + res.y) + Math.fround(res.z + res.w));
+    while (rem) {
+      res = Math.fround(res + items[rem--]);
     }
-
-    return res.x + res.y + res.z + res.w;
+    return res;
   };
 }
 
+// Scalar
 function sum(items){
   var res = 0;
   for (var i = 0; i < items.length; i++){
-    res += items[i];
+    res = Math.fround(Math.fround(res) + items[i]);
   }
 
   return res;
@@ -55,14 +39,16 @@ var generateArray = function(count){
   return xs;
 };
 
-var items = generateArray(10000);
+var SIZE = 100000;
+
+var items = generateArray(SIZE);
 
 var doSum = function(items){
-  if (sum(items) >= 10000) { console.error('fail sum'); }
+  if (sum(items) >= SIZE) { console.error('fail sum'); }
 };
 
 var doSIMDSum = function(items){
-  if (float32x4.utils.sum(items) > 10000) { console.error('fail SIMD sum'); }
+  if (float32x4.utils.sum(items) > SIZE) { console.error('fail SIMD sum'); }
 };
 
 if (!float32x4.utils.avg){
