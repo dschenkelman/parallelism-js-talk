@@ -4,11 +4,9 @@ var asmModule = function(stdlib, imp, buffer){
   var f4load = f4.load;
   var f4add = f4.add;
   var fround = stdlib.Math.fround;
-  var loadX = f4.loadX;
-  var loadXY = f4.loadXY;
-  var loadXYZ = f4.loadXYZ;
 
   var u8values = new stdlib.Uint8Array(buffer);
+  var f32values = new stdlib.Float32Array(buffer);
 
   function sum(length){
     length = length | 0;
@@ -17,6 +15,7 @@ var asmModule = function(stdlib, imp, buffer){
     var i = 0;
     var mk4 = 0x000ffff0;
     var diff = 0;
+    var result = fround(0.0);
 
     max = length << 2;
 
@@ -24,17 +23,16 @@ var asmModule = function(stdlib, imp, buffer){
       res = f4add(res, f4load(u8values, i & mk4));
     }
 
-    diff = i | 0 - (max | 0);
+    diff = ((i | 0) - (max | 0) | 0);
 
-    if ((diff | 0) == (12 | 0)) {
-      res = f4add(res, loadX(u8values, i & mk4));
-    } else if ((diff | 0) == (8 | 0)) {
-      res = f4add(res, loadXY(u8values, i & mk4));
-    } else if ((diff | 0) == (4 | 0)){
-      res = f4add(res, loadXYZ(u8values, i & mk4));
+    result = fround(fround(res.x + res.y) + fround(res.z + res.w));
+
+    while ((diff | 0) != (0 | 0)){
+      result = fround(result + f32values[((i | 0) + (diff | 0)) >> 2]);
+      diff = ((diff | 0) - (4 | 0) | 0);
     }
 
-    return fround(fround(res.x + res.y) + fround(res.z + res.w));
+    return result;
   }
 
   return {
