@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ZIP file in worker</title>
+  </head>
+  <body>
+    <h3>Choose the local(s) zip file(s)</h3>
+    <input type="file" id="files" name="files[]" multiple />
+    <script type="text/javascript">
+      var worker = new Worker('zip.js');
+      worker.postMessage(); // avoid cold start
+
+      worker.addEventListener('message', function(e){
+        var name = e.data.name;
+        console.timeEnd(name + 'took');
+        console.log('Bytes received (' + name + '):',
+          e.data.buffer.byteLength);
+      });
+
+      function fileLoaded(f, e){
+        var buffer = e.target.result;
+        console.log('Bytes sent (' + f.name + '):', buffer.byteLength);
+        console.time(f.name + 'took');
+        worker.postMessage({ buffer: buffer, name: f.name }, [ buffer ]);
+      }
+
+      function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+          // Only process image files.
+          if (!f.type.match('image.*')) {
+            continue;
+          }
+
+          var reader = new FileReader();
+
+          // Closure to capture the file information.
+          reader.addEventListener('load', fileLoaded.bind(null, f), false);
+          // Read in the image file as a data URL.
+          reader.readAsArrayBuffer(f);
+        }
+      }
+
+      document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    </script>
+  </body>
+</html>

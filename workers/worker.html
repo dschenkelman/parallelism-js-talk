@@ -1,0 +1,34 @@
+<head>
+ <script>
+  var worker = new Worker('worker.js');
+  worker.addEventListener('message', function(e){
+    console.timeEnd('took');
+    console.log('Received from worker:', e.data);
+  });
+
+  function postMessage(data, trans){
+    console.time('took');
+
+    worker.postMessage(data, trans);
+  }
+
+  function smallArray(){
+    return createArray(100);
+  }
+
+  function largeArray(){
+    return createArray(100000);
+  }
+
+  function createArray(len){
+    var items = new Int32Array(len);
+    while (len--){
+      items[len] = 100;
+    }
+
+    return items;
+  }
+
+  postMessage(); // cold start
+ </script>
+</head>
