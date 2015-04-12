@@ -8,7 +8,6 @@ var run;
     var source = document.getElementById("source");
     var runButton = document.getElementById("runButton");
     run = function () {
-        var start = new Date();
         log.innerHTML = "Processing...";
 
         runButton.style.visibility = "hidden"; 
@@ -27,6 +26,7 @@ var run;
         tempContext.drawImage(source, 0, 0, canvas.width, canvas.height);
 
         var canvasData = tempContext.getImageData(0, 0, canvas.width, canvas.height);
+        var start = new Date();
         pjs(new Uint32Array(canvasData.data.buffer)).map(function(pixel){
           var r = pixel & 0xFF;
           var g = (pixel & 0xFF00) >> 8;
@@ -41,8 +41,8 @@ var run;
 
           return (pixel & 0xFF000000) + (new_b << 16) + (new_g << 8) + (new_r & 0xFF);
         }, function(result){
-            var diff = new Date() - start;
             canvasData.data.set(new Uint8ClampedArray(result.buffer));
+            var diff = new Date() - start;
             tempContext.putImageData(canvasData, 0, 0);
             log.innerHTML = "Process done in " + diff + " ms";
             runButton.style.visibility = "visible";
