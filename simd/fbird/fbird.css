@@ -1,0 +1,72 @@
+body, html {
+  height: 100%;
+  border-width: 0;
+  padding:0;
+  margin:0;
+  overflow:hidden;
+}
+
+#fbirdDiv {
+  border: 0;
+  margin:0;
+  padding:0;
+}
+
+#canvasSurface, #domSurface {
+  border: 0;
+  width: 100%;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  position:absolute;
+}
+
+.centerDiv {
+  position: absolute;
+  left: 50%;
+  border:0;
+  margin:0;
+  padding:0;
+}
+
+.rightDiv {
+  position: absolute;
+  right:0px;
+  border: solid black 1px;
+  padding: 2px;
+  width:80px;
+  text-align:center;
+}
+
+.bottomDiv {
+  position: absolute;
+  bottom:2px;
+}
+
+#birds {
+  position: relative;
+  width:    150px;
+  text-align: center;
+  font-family: Sans-Serif;
+  font-size: 2em;
+  color:white;
+  border: 2px solid black;
+  left:-50%;
+  border-radius:10px;
+  z-index:10;
+  background: #404040;
+  background: -webkit-radial-gradient(circle, #404040, #a0a0a0);
+}
+
+#useSimd {
+  position: relative;
+  width:    200px;
+  text-align: center;
+  background: #808080;
+  font-size: 2em;
+  border: 2px solid black;
+  left:-50%;
+  border-radius:10px;
+  opacity:0.5;
+  z-index:10;
+}

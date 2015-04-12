@@ -12,7 +12,8 @@ if (!float32x4.utils.sum){
       res = float32x4.add(res, f32x4Load(items, i));
     }
 
-    res = Math.fround(Math.fround(res.x + res.y) + Math.fround(res.z + res.w));
+    res = Math.fround(Math.fround(res.x + res.y) +
+      Math.fround(res.z + res.w));
     while (rem) {
       res = Math.fround(res + items[rem--]);
     }
@@ -22,8 +23,9 @@ if (!float32x4.utils.sum){
 
 // Scalar
 function sum(items){
-  var res = 0;
-  for (var i = 0; i < items.length; i++){
+  var max = items.length;
+  var res = Math.fround(0);
+  for (var i = 0; i < max; i++){
     res = Math.fround(Math.fround(res) + items[i]);
   }
 
