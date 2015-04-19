@@ -3,5 +3,9 @@ self.addEventListener('message', function(e) {
     return;
   }
 
-  self.postMessage(e.data);
+  if (e.data.buffer){
+    self.postMessage(e.data, [ e.data.buffer ]);
+  } else {
+    self.postMessage(e.data);
+  }
 });

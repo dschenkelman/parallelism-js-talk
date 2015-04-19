@@ -43,11 +43,9 @@ var processSepia = function (binaryData, l) {
 
         var canvasData = tempContext.getImageData(0, 0, canvas.width, canvas.height);
         var binaryData = canvasData.data;
-        console.time('serial');
         var start = new Date();
         processSepia(binaryData, len);
         var diff = new Date() - start;
-        console.timeEnd('serial');
         tempContext.putImageData(canvasData, 0, 0);
         log.innerHTML = "Process done in " + diff + " ms (no web workers)";
         runButton.style.visibility = "visible"; 
