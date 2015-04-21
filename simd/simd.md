@@ -34,8 +34,6 @@ Interview: https://software.intel.com/en-us/articles/simdjs-project-behind-scene
 
 Video: http://intelstudios.edgesuite.net/idf/2014/sf/ti/SPCS003/index.html
 
-chiste charla brendan (preparando la charla para jsconfuy. brenadan me contesto 2 veces. la proxima lo hago amigo en facebook)
-
 use cases: games, image processing asm.js through emscripten
 
 SIMD presentations: https://docs.google.com/presentation/d/1yc2NDzFJ-0yD980URiTcV3oE_2cQDVzXuH4Rss1fG8s/edit#slide=id.gad5f0b18_1433
