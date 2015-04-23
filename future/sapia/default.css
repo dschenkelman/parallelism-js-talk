@@ -34,12 +34,12 @@ body {
 
 #log {
     position: absolute;
-    width: 100%;
+    width: 50%;
     z-index: 300;
     text-shadow: 2px 2px 1px black;
     font-size: 28px;
     color: white;
-    left: 1632px;
+    left: 816px;
     /*text-align: center;*/
     margin-top: 300px;
 }
