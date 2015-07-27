@@ -8,7 +8,7 @@
     <input type="file" id="files" name="files[]" multiple />
     <script type="text/javascript">
       var worker = new Worker('zip.js');
-      worker.postMessage(); // avoid cold start
+      worker.postMessage(undefined); // avoid cold start
 
       worker.addEventListener('message', function(e){
         var name = e.data.name;
