@@ -152,10 +152,10 @@ var fbird = (function() {
 
       var posArrayx4            = new Float32x4Array(posArray.buffer);
       var velArrayx4            = new Float32x4Array(velArray.buffer);
-      var maxPosx4              = SIMD.float32x4.splat(maxPos);
-      var subTimeDeltax4        = SIMD.float32x4.splat(subTimeDelta);
-      var subTimeDeltaSquaredx4 = SIMD.float32x4.mul(subTimeDeltax4, subTimeDeltax4);
-      var point5x4              = SIMD.float32x4.splat(0.5);
+      var maxPosx4              = SIMD.Float32x4.splat(maxPos);
+      var subTimeDeltax4        = SIMD.Float32x4.splat(subTimeDelta);
+      var subTimeDeltaSquaredx4 = SIMD.Float32x4.mul(subTimeDeltax4, subTimeDeltax4);
+      var point5x4              = SIMD.Float32x4.splat(0.5);
 
       for (var i = 0, len = (actualBirds+3)>>2; i < len; ++i) {
         var accelIndex = 0;
@@ -164,22 +164,22 @@ var fbird = (function() {
         var newVelx4 = velArrayx4.getAt(i);
         for (var a = 0; a < steps; ++a) {
           var accel              = accelData.values[accelIndex];
-          var accelx4            = SIMD.float32x4.splat(accel);
+          var accelx4            = SIMD.Float32x4.splat(accel);
           accelIndex             = (accelIndex + 1) % accelCount;
           var posDeltax4;
-          posDeltax4 = SIMD.float32x4.mul(point5x4, SIMD.float32x4.mul(accelx4, subTimeDeltaSquaredx4));
-          posDeltax4 = SIMD.float32x4.add(posDeltax4, SIMD.float32x4.mul(newVelx4,subTimeDeltax4));
-          newPosx4   = SIMD.float32x4.add(newPosx4, posDeltax4);
-          newVelx4 = SIMD.float32x4.add(newVelx4, SIMD.float32x4.mul(accelx4, subTimeDeltax4));
-          var cmpx4 = SIMD.float32x4.greaterThan(newPosx4, maxPosx4);
-          newVelTruex4 = SIMD.float32x4.neg(newVelx4);
-          newVelx4 = SIMD.float32x4.select(cmpx4, newVelTruex4, newVelx4);
-//          newVelx4 = SIMD.float32x4.fromInt32x4Bits(SIMD.int32x4.or(
-//                       SIMD.int32x4.and(cmpx4,SIMD.int32x4.fromFloat32x4Bits(newVelTruex4)),
-//                       SIMD.int32x3.and(SIMD.int32x4.not(cmpx4), SIMD.int32x4.fromFloat32x4Bits(newVelx4))));
-//          newVelx4 = SIMD.int32x4.bitsToFloat32x4(SIMD.int32x4.or(
-//                       SIMD.int32x4.and(cmpx4,SIMD.float32x4.bitsToInt32x4(newVelTruex4)),
-//                       SIMD.int32x4.and(SIMD.int32x4.not(cmpx4), SIMD.float32x4.bitsToInt32x4(newVelx4))));
+          posDeltax4 = SIMD.Float32x4.mul(point5x4, SIMD.Float32x4.mul(accelx4, subTimeDeltaSquaredx4));
+          posDeltax4 = SIMD.Float32x4.add(posDeltax4, SIMD.Float32x4.mul(newVelx4,subTimeDeltax4));
+          newPosx4   = SIMD.Float32x4.add(newPosx4, posDeltax4);
+          newVelx4 = SIMD.Float32x4.add(newVelx4, SIMD.Float32x4.mul(accelx4, subTimeDeltax4));
+          var cmpx4 = SIMD.Float32x4.greaterThan(newPosx4, maxPosx4);
+          newVelTruex4 = SIMD.Float32x4.neg(newVelx4);
+          newVelx4 = SIMD.Float32x4.select(cmpx4, newVelTruex4, newVelx4);
+//          newVelx4 = SIMD.Float32x4.fromInt32x4Bits(SIMD.Int32x4.or(
+//                       SIMD.Int32x4.and(cmpx4,SIMD.Int32x4.fromFloat32x4Bits(newVelTruex4)),
+//                       SIMD.int32x3.and(SIMD.Int32x4.not(cmpx4), SIMD.Int32x4.fromFloat32x4Bits(newVelx4))));
+//          newVelx4 = SIMD.Int32x4.bitsToFloat32x4(SIMD.Int32x4.or(
+//                       SIMD.Int32x4.and(cmpx4,SIMD.Float32x4.bitsToInt32x4(newVelTruex4)),
+//                       SIMD.Int32x4.and(SIMD.Int32x4.not(cmpx4), SIMD.Float32x4.bitsToInt32x4(newVelx4))));
         }
         posArrayx4.setAt(i, newPosx4);
         velArrayx4.setAt(i, newVelx4);

@@ -25,15 +25,15 @@ if (typeof SIMD == 'undefined') {
   alert('SIMD not implemented in this browser');
   throw 'SIMD not implemented in this browser';
 } else {
-  // Polyfill float32x4.select
+  // Polyfill Float32x4.select
   try {
-    var x = SIMD.float32x4(1,2,3,4);
+    var x = SIMD.Float32x4(1,2,3,4);
     var T = 0xFFFFFFFF, F = 0x0;
-    var y = SIMD.float32x4.select(SIMD.int32x4(T, T, F, F), x, x);
-    console.log('float32x4.select is implemented');
+    var y = SIMD.Float32x4.select(SIMD.Int32x4(T, T, F, F), x, x);
+    console.log('Float32x4.select is implemented');
   } catch (e) {
-    console.log('float32x4.select isnt implemented');
-    SIMD.float32x4.select = SIMD.int32x4.select;
+    console.log('Float32x4.select isnt implemented');
+    SIMD.Float32x4.select = SIMD.Int32x4.select;
   }
 }
 
@@ -266,34 +266,34 @@ var fbird = (function() {
       var accelCount   = accelDataValuesLength;
       var subTimeDelta = timeDelta/steps/1000.0;
 
-      var maxPosx4              = SIMD.float32x4.splat(maxPos);
-      var subTimeDeltax4        = SIMD.float32x4.splat(subTimeDelta);
-      var subTimeDeltaSquaredx4 = SIMD.float32x4.mul(subTimeDeltax4, subTimeDeltax4);
-      var point5x4              = SIMD.float32x4.splat(0.5);
+      var maxPosx4              = SIMD.Float32x4.splat(maxPos);
+      var subTimeDeltax4        = SIMD.Float32x4.splat(subTimeDelta);
+      var subTimeDeltaSquaredx4 = SIMD.Float32x4.mul(subTimeDeltax4, subTimeDeltax4);
+      var point5x4              = SIMD.Float32x4.splat(0.5);
 
       for (var i = 0, len = (actualBirds+3)>>2; i < len; ++i) {
         var accelIndex = 0;
         var newVelTruex4;
-        var newPosx4 = SIMD.float32x4(bufferF32[i * 4],
+        var newPosx4 = SIMD.Float32x4(bufferF32[i * 4],
             bufferF32[i * 4 + 1],
             bufferF32[i * 4 + 2],
             bufferF32[i * 4 + 3]);
-        var newVelx4 = SIMD.float32x4(bufferF32[i * 4 + maxBirds],
+        var newVelx4 = SIMD.Float32x4(bufferF32[i * 4 + maxBirds],
             bufferF32[i * 4 + maxBirds + 1],
             bufferF32[i * 4 + maxBirds + 2],
             bufferF32[i * 4 + maxBirds + 3]);
         for (var a = 0; a < steps; ++a) {
           var accel = bufferF32[accelIndex + config.maxBirds * 2];
-          var accelx4            = SIMD.float32x4.splat(accel);
+          var accelx4            = SIMD.Float32x4.splat(accel);
           accelIndex             = (accelIndex + 1) % accelCount;
           var posDeltax4;
-          posDeltax4 = SIMD.float32x4.mul(point5x4, SIMD.float32x4.mul(accelx4, subTimeDeltaSquaredx4));
-          posDeltax4 = SIMD.float32x4.add(posDeltax4, SIMD.float32x4.mul(newVelx4,subTimeDeltax4));
-          newPosx4   = SIMD.float32x4.add(newPosx4, posDeltax4);
-          newVelx4 = SIMD.float32x4.add(newVelx4, SIMD.float32x4.mul(accelx4, subTimeDeltax4));
-          var cmpx4 = SIMD.float32x4.greaterThan(newPosx4, maxPosx4);
-          newVelTruex4 = SIMD.float32x4.neg(newVelx4);
-          newVelx4 = SIMD.int32x4.select(cmpx4, newVelTruex4, newVelx4);
+          posDeltax4 = SIMD.Float32x4.mul(point5x4, SIMD.Float32x4.mul(accelx4, subTimeDeltaSquaredx4));
+          posDeltax4 = SIMD.Float32x4.add(posDeltax4, SIMD.Float32x4.mul(newVelx4,subTimeDeltax4));
+          newPosx4   = SIMD.Float32x4.add(newPosx4, posDeltax4);
+          newVelx4 = SIMD.Float32x4.add(newVelx4, SIMD.Float32x4.mul(accelx4, subTimeDeltax4));
+          var cmpx4 = SIMD.Float32x4.greaterThan(newPosx4, maxPosx4);
+          newVelTruex4 = SIMD.Float32x4.neg(newVelx4);
+          newVelx4 = SIMD.Int32x4.select(cmpx4, newVelTruex4, newVelx4);
         }
         bufferF32[i * 4] = newPosx4.x;
         bufferF32[i * 4 + 1] = newPosx4.y;
@@ -322,8 +322,8 @@ var fbird = (function() {
       var getActualBirds = imp.getActualBirds;
       var getMaxPos = imp.getMaxPos;
 
-      var i4 = global.SIMD.int32x4;
-      var f4 = global.SIMD.float32x4;
+      var i4 = global.SIMD.Int32x4;
+      var f4 = global.SIMD.Float32x4;
       var i4add = i4.add;
       var i4and = i4.and;
       var f4select = f4.select;
