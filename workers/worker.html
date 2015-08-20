@@ -3,7 +3,7 @@
   var worker = new Worker('worker.js');
   worker.addEventListener('message', function(e){
     console.timeEnd('took');
-    console.log('Received from worker:', e.data);
+    console.log('Received from worker:', e.data.length, 'items');
   });
 
   function postMessage(data, trans){
