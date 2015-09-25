@@ -1,3 +1,6 @@
+## Videos
+* https://www.youtube.com/watch?v=F5id91HZZBU (english)
+
 ## Setup steps
 
 1. Serve workers demo `serve workers/`.
